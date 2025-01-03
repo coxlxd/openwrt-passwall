@@ -1,13 +1,13 @@
 # Copyright (C) 2018-2020 L-WRT Team
-# Copyright (C) 2021-2023 xiaorouji
+# Copyright (C) 2021-2025 xiaorouji
 #
 # This is free software, licensed under the GNU General Public License v3.
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-passwall
-PKG_VERSION:=4.78-4
-PKG_RELEASE:=
+PKG_VERSION:=25.1.1
+PKG_RELEASE:=1
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy \
@@ -26,6 +26,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Trojan_Plus \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_tuic_client \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Geodata \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Geoview \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Plugin \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Xray \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Xray_Plugin
@@ -33,7 +34,7 @@ PKG_CONFIG_DEPENDS:= \
 LUCI_TITLE:=LuCI support for PassWall
 LUCI_PKGARCH:=all
 LUCI_DEPENDS:=+coreutils +coreutils-base64 +coreutils-nohup +curl \
-	+chinadns-ng +dns2socks +dns2tcp +dnsmasq-full +ip-full \
+	+chinadns-ng +dns2socks +dnsmasq-full +ip-full \
 	+libuci-lua +lua +luci-compat +luci-lib-jsonc \
 	+microsocks +resolveip +tcping
 
@@ -139,6 +140,11 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Geodata
 	select PACKAGE_v2ray-geoip
 	select PACKAGE_v2ray-geosite
 	default n
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Geoview
+	bool "Include V2ray_Geoview"
+	select PACKAGE_geoview
+	default y if aarch64||arm||i386||x86_64
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Plugin
 	bool "Include V2ray-Plugin (Shadowsocks Plugin)"
